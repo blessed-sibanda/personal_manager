@@ -18,11 +18,25 @@ class _NotesEntryState extends State<NotesEntry> {
   final TextEditingController _contentController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  Note _note = Note();
+  final Note _note = Note();
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      final repository = Provider.of<Repository>(context, listen: false);
+      final notesManager = Provider.of<NotesManager>(context, listen: false);
+      if (notesManager.selectedId != null) {
+        repository.findNoteById(notesManager.selectedId!).then((value) {
+          _titleController.text = value.title;
+          _contentController.text = value.content;
+          _note.id = value.id;
+
+          setState(() => _note.color = value.color);
+        });
+      }
+    });
   }
 
   @override
@@ -34,13 +48,8 @@ class _NotesEntryState extends State<NotesEntry> {
 
   @override
   Widget build(BuildContext context) {
-    final noteManager = Provider.of<NotesManager>(context);
-    final repository = Provider.of<Repository>(context);
-    if (noteManager.selectedId != null) {
-      repository
-          .findNoteById(noteManager.selectedId!)
-          .then((value) => _note = value);
-    }
+    final repository = Provider.of<Repository>(context, listen: false);
+
     return Consumer<NotesManager>(
       builder: (context, notesManager, child) {
         return Scaffold(
@@ -49,15 +58,15 @@ class _NotesEntryState extends State<NotesEntry> {
             child: Row(
               children: [
                 TextButton(
-                    onPressed: () => noteManager.resetScreen(),
+                    onPressed: () => notesManager.resetScreen(),
                     child: const Text('Cancel')),
                 const Spacer(),
                 TextButton(
                     onPressed: () {
                       if (!_formKey.currentState!.validate()) return;
-                      if (noteManager.selectedId == null) {
-                        _note.title = _titleController.text;
-                        _note.content = _contentController.text;
+                      _note.title = _titleController.text;
+                      _note.content = _contentController.text;
+                      if (notesManager.selectedId == null) {
                         repository.insertNote(_note);
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -67,10 +76,10 @@ class _NotesEntryState extends State<NotesEntry> {
                           ),
                         );
                       } else {
-                        // TODO: Update Note
+                        repository.updateNote(_note);
                       }
-                      noteManager.savedNote();
-                      noteManager.resetScreen();
+                      notesManager.savedNote();
+                      notesManager.resetScreen();
                     },
                     child: const Text('Save')),
               ],

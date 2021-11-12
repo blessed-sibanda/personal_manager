@@ -5,4 +5,5 @@ abstract class NotesRepository {
   Future<Note> findNoteById(int id);
   Stream<List<Note>> watchAllNotes();
   Future<int> insertNote(Note note);
+  Future<int> updateNote(Note note);
 }

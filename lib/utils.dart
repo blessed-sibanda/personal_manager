@@ -40,7 +40,6 @@ const colors = [
   'purple',
   'pink',
   'orange',
-  'black',
   'indigo',
   'cyan'
 ];
@@ -68,9 +67,6 @@ Color getColorFromString(String colorString) {
       break;
     case 'orange':
       color = Colors.orange;
-      break;
-    case 'black':
-      color = Colors.black;
       break;
     case 'indigo':
       color = Colors.indigo;

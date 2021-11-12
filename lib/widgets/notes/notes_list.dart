@@ -24,6 +24,7 @@ class NotesList extends StatelessWidget {
 
   Widget _buildNotesList(BuildContext context) {
     final repository = Provider.of<Repository>(context);
+    final noteManager = Provider.of<NotesManager>(context);
     return StreamBuilder(
       stream: repository.watchAllNotes(),
       builder: (BuildContext context, AsyncSnapshot<List<Note>> snapshot) {
@@ -39,12 +40,13 @@ class NotesList extends StatelessWidget {
               Note note = notes[index];
               return Card(
                 elevation: 8,
-                // TODO: Use actual note color
                 color: getColorFromString(note.color),
                 child: ListTile(
                   title: Text(note.title),
                   subtitle: Text(note.content),
-                  onTap: () {},
+                  onTap: () {
+                    noteManager.editNote(note.id!);
+                  },
                 ),
               );
             });
