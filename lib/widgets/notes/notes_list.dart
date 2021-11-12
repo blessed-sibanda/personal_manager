@@ -25,7 +25,7 @@ class NotesList extends StatelessWidget {
 
   Widget _buildNotesList(BuildContext context) {
     final repository = Provider.of<Repository>(context);
-    final noteManager = Provider.of<NotesManager>(context);
+    final notesManager = Provider.of<NotesManager>(context);
     return StreamBuilder(
       stream: repository.watchAllNotes(),
       builder: (BuildContext context, AsyncSnapshot<List<Note>> snapshot) {
@@ -64,7 +64,7 @@ class NotesList extends StatelessWidget {
                     title: Text(note.title),
                     subtitle: Text(note.content),
                     onTap: () {
-                      noteManager.editNote(note.id!);
+                      notesManager.editNote(note.id!);
                     },
                   ),
                 ),

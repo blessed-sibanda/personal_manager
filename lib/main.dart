@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:personal_manager/data/managers/notes_manager.dart';
+import 'package:personal_manager/data/managers/tasks_manager.dart';
 import 'package:personal_manager/data/repositories/repository.dart';
 import 'package:personal_manager/data/sqlite/sqlite_repository.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,8 @@ class _PersonalManagerState extends State<PersonalManager> {
         ),
         ChangeNotifierProvider<NotesManager>(
             create: (context) => NotesManager()),
+        ChangeNotifierProvider<TasksManager>(
+            create: (context) => TasksManager()),
       ],
       child: MaterialApp(
         title: 'Personal Manager',

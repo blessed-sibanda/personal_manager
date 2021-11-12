@@ -11,8 +11,8 @@ class DbTables {
 }
 
 class SqliteDatabaseHelper {
-  static const _databaseName = 'personal_manager.sqlite';
-  static const _databaseVersion = 2;
+  static const _databaseName = 'personal_manager_database_xy.sqlite';
+  static const _databaseVersion = 1;
 
   static BriteDatabase? _streamDatabase;
 
@@ -50,12 +50,14 @@ class SqliteDatabaseHelper {
       )
     ''');
 
-    // TODO: Create tasks database
-    // await db.execute('''
-    //   CREATE TABLE ${DbTables.tasks} (
-
-    //   )
-    // ''');
+    await db.execute('''
+      CREATE TABLE ${DbTables.tasks} (
+        id INTEGER PRIMARY KEY,
+        description TEXT,
+        dueDate TEXT,
+        completed INTEGER
+      )
+    ''');
   }
 
   Future<Database> _initDatabase() {
