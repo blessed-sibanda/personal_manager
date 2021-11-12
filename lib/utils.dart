@@ -30,3 +30,43 @@ Future selectDate(
     return '${picked.year},${picked.month},${picked.day}';
   }
 }
+
+Color getColorFromString(String colorString) {
+  Color color;
+  switch (colorString) {
+    case 'red':
+      color = Colors.red;
+      break;
+    case 'blue':
+      color = Colors.blue;
+      break;
+    case 'green':
+      color = Colors.green;
+      break;
+    case 'yellow':
+      color = Colors.yellow;
+      break;
+    case 'pink':
+      color = Colors.pink;
+      break;
+    case 'purple':
+      color = Colors.purple;
+      break;
+    case 'orange':
+      color = Colors.orange;
+      break;
+    case 'black':
+      color = Colors.black;
+      break;
+    case 'indigo':
+      color = Colors.indigo;
+      break;
+    case 'cyan':
+      color = Colors.cyan;
+      break;
+    default:
+      color = Colors.grey;
+      break;
+  }
+  return color;
+}

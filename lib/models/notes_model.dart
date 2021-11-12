@@ -1,31 +1,32 @@
-import 'base_model.dart';
-
 class Note {
   int? id;
   String title;
   String content;
-  String color;
+  String? color;
 
   Note({
     this.id,
-    required this.title,
-    required this.content,
-    required this.color,
+    this.title = '',
+    this.content = '',
+    this.color,
   });
 
-  factory Note.fromJson(Map<String, dynamic> json) => Note(
-        id: json['id'],
-        title: json['title'],
-        content: json['content'],
-        color: json['color'],
+  factory Note.fromMap(Map<String, dynamic> noteMap) => Note(
+        id: noteMap['id'],
+        title: noteMap['title'],
+        content: noteMap['content'],
+        color: noteMap['color'],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         'id': id,
         'title': title,
         'content': content,
         'color': color,
       };
-}
 
-class NotesManager extends BaseModel {}
+  @override
+  String toString() {
+    return 'Note id: $id, title: $title, content: $content, color: $color';
+  }
+}

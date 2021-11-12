@@ -13,4 +13,16 @@ class NotesMemoryRepository implements NotesRepository {
     // TODO: implement watchAllNotes
     throw UnimplementedError();
   }
+
+  @override
+  Future<int> insertNote(Note note) {
+    // TODO: implement insertNote
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Note> findNoteById(int id) {
+    // TODO: implement findNoteById
+    throw UnimplementedError();
+  }
 }

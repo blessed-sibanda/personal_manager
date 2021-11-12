@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
+import 'package:personal_manager/data/managers/notes_manager.dart';
 import 'package:personal_manager/data/repositories/repository.dart';
 import 'package:personal_manager/data/sqlite/sqlite_repository.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ void main() {
 void _setupLogging() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((event) {
+    // ignore: avoid_print
     print('${event.level.name}: ${event.time}: ${event.message}');
   });
 }
@@ -52,6 +54,8 @@ class _PersonalManagerState extends State<PersonalManager> {
           lazy: false,
           dispose: (_, Repository repository) => repository.close(),
         ),
+        ChangeNotifierProvider<NotesManager>(
+            create: (context) => NotesManager()),
       ],
       child: MaterialApp(
         title: 'Personal Manager',

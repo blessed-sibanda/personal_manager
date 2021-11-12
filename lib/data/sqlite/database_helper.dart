@@ -11,8 +11,8 @@ class DbTables {
 }
 
 class SqliteDatabaseHelper {
-  static const _databaseName = 'personal_manager.db';
-  static const _databaseVersion = 1;
+  static const _databaseName = 'personal_manager.sqlite';
+  static const _databaseVersion = 2;
 
   static BriteDatabase? _streamDatabase;
 
@@ -27,29 +27,35 @@ class SqliteDatabaseHelper {
   static Database? _database;
 
   Future _onCreate(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE ${DbTables.appointments} (
+    // TODO: Create appointments database
+    // await db.execute('''
+    //   CREATE TABLE ${DbTables.appointments} (
 
-      )
-    ''');
+    //   )
+    // ''');
 
-    await db.execute('''
-      CREATE TABLE ${DbTables.contacts}(
-        
-      )
-    ''');
+    // TODO: Create contacts database
+    // await db.execute('''
+    //   CREATE TABLE ${DbTables.contacts}(
+
+    //   )
+    // ''');
 
     await db.execute('''
       CREATE TABLE ${DbTables.notes} (
-        
+        id INTEGER PRIMARY KEY,
+        title TEXT,
+        content TEXT,
+        color TEXT
       )
     ''');
 
-    await db.execute('''
-      CREATE TABLE ${DbTables.tasks} (
-        
-      )
-    ''');
+    // TODO: Create tasks database
+    // await db.execute('''
+    //   CREATE TABLE ${DbTables.tasks} (
+
+    //   )
+    // ''');
   }
 
   Future<Database> _initDatabase() {
@@ -76,5 +82,10 @@ class SqliteDatabaseHelper {
 
   void close() {
     _streamDatabase?.close();
+  }
+
+  static Future<int> insert(String table, Map<String, dynamic> row) async {
+    final db = await instance.streamDatabase;
+    return db.insert(table, row);
   }
 }
