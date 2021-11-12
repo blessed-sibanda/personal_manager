@@ -69,10 +69,12 @@ class _NotesEntryState extends State<NotesEntry> {
                       if (notesManager.selectedId == null) {
                         repository.insertNote(_note);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            duration: Duration(seconds: 2),
-                            content: Text('Note saved'),
-                            backgroundColor: Colors.green,
+                          SnackBar(
+                            duration: const Duration(seconds: 2),
+                            content: const Text('Note saved'),
+                            backgroundColor: utils
+                                .getColorFromString(_note.color)
+                                .withOpacity(0.3),
                           ),
                         );
                       } else {

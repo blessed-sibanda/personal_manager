@@ -6,4 +6,5 @@ abstract class NotesRepository {
   Stream<List<Note>> watchAllNotes();
   Future<int> insertNote(Note note);
   Future<int> updateNote(Note note);
+  Future<int> deleteNote(Note note);
 }

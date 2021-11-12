@@ -22,6 +22,13 @@ class NotesSqliteRepository implements NotesRepository {
   }
 
   @override
+  Future<int> deleteNote(Note note) async {
+    final db = await dbInstance.streamDatabase;
+    return await db
+        .delete(DbTables.notes, where: 'id = ?', whereArgs: [note.id]);
+  }
+
+  @override
   Stream<List<Note>> watchAllNotes() async* {
     final db = await dbInstance.streamDatabase;
     yield* db.createQuery(DbTables.notes).mapToList((row) => Note.fromMap(row));
