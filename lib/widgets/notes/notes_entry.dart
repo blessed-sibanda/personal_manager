@@ -64,24 +64,26 @@ class _NotesEntryState extends State<NotesEntry> {
                 TextButton(
                     onPressed: () {
                       if (!_formKey.currentState!.validate()) return;
+                      String _successText = 'Note Saved';
                       _note.title = _titleController.text;
                       _note.content = _contentController.text;
                       if (notesManager.selectedId == null) {
                         repository.insertNote(_note);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: const Duration(seconds: 2),
-                            content: const Text('Note saved'),
-                            backgroundColor: utils
-                                .getColorFromString(_note.color)
-                                .withOpacity(0.3),
-                          ),
-                        );
                       } else {
                         repository.updateNote(_note);
+                        _successText = 'Note Updated';
                       }
                       notesManager.savedNote();
                       notesManager.resetScreen();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: const Duration(seconds: 2),
+                          content: Text(_successText),
+                          backgroundColor: utils
+                              .getColorFromString(_note.color)
+                              .withOpacity(0.3),
+                        ),
+                      );
                     },
                     child: const Text('Save')),
               ],
