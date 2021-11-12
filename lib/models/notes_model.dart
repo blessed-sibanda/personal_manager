@@ -2,13 +2,13 @@ class Note {
   int? id;
   String title;
   String content;
-  String? color;
+  String color;
 
   Note({
     this.id,
     this.title = '',
     this.content = '',
-    this.color,
+    this.color = 'grey',
   });
 
   factory Note.fromMap(Map<String, dynamic> noteMap) => Note(

@@ -7,14 +7,14 @@ import 'package:provider/provider.dart';
 class NotesScreen extends StatelessWidget {
   const NotesScreen({Key? key}) : super(key: key);
 
+  final pages = const [NotesList(), NotesEntry()];
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NotesManager>(
       builder: (context, notesManager, child) {
-        return IndexedStack(
-          index: notesManager.screen,
-          children: const [NotesList(), NotesEntry()],
-        );
+        final index = notesManager.screen;
+        return pages[index];
       },
     );
   }

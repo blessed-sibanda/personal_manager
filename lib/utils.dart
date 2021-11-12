@@ -31,6 +31,20 @@ Future selectDate(
   }
 }
 
+const colors = [
+  'red',
+  'grey',
+  'blue',
+  'green',
+  'yellow',
+  'purple',
+  'pink',
+  'orange',
+  'black',
+  'indigo',
+  'cyan'
+];
+
 Color getColorFromString(String colorString) {
   Color color;
   switch (colorString) {

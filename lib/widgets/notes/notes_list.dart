@@ -33,8 +33,6 @@ class NotesList extends StatelessWidget {
           return Container();
         }
 
-        print('$notes');
-
         return ListView.builder(
             itemCount: notes.length,
             itemBuilder: (BuildContext contex, int index) {
@@ -42,7 +40,7 @@ class NotesList extends StatelessWidget {
               return Card(
                 elevation: 8,
                 // TODO: Use actual note color
-                color: getColorFromString(note.color!),
+                color: getColorFromString(note.color),
                 child: ListTile(
                   title: Text(note.title),
                   subtitle: Text(note.content),
