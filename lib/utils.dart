@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 
 Directory? docsDir;
 
-String formatDate(DateTime date) {
-  return DateFormat.yMMMEd('en_US').format(date.toLocal());
+String formatDate(DateTime? date) {
+  return DateFormat.yMMMEd('en_US').format(date!.toLocal());
 }
 
 const colors = [

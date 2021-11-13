@@ -9,7 +9,7 @@ extension on DateTime {
 class Task {
   int? id;
   String description;
-  DateTime dueDate;
+  DateTime? dueDate;
   bool completed;
 
   Task(
@@ -27,7 +27,7 @@ class Task {
 
   Map<String, dynamic> toMap() => {
         'id': id,
-        'dueDate': dueDate.formatted,
+        'dueDate': dueDate!.formatted,
         'description': description,
         'completed': completed == true ? 1 : 0,
       };
