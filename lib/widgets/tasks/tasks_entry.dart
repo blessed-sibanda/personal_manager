@@ -98,7 +98,7 @@ class _TasksEntryState extends State<TasksEntry> {
             ),
             ListTile(
               title: const Text('Due Date'),
-              subtitle: Text(utils.formatDate(_task!.dueDate)),
+              subtitle: Text(utils.formatDate(_task.dueDate)),
               trailing: IconButton(
                   onPressed: () async {
                     final pickedDate = await showDatePicker(

@@ -19,12 +19,16 @@ class MoorTask extends Table {
 
 @UseMoor(tables: [MoorNote, MoorTask], daos: [NoteDao, TaskDao])
 class PersonalManagerDatabase extends _$PersonalManagerDatabase {
-  PersonalManagerDatabase()
+  PersonalManagerDatabase._()
       : super(FlutterQueryExecutor.inDatabaseFolder(
             path: 'pm.sqlite', logStatements: true));
 
   @override
   int get schemaVersion => 1;
+
+  static final PersonalManagerDatabase instance = PersonalManagerDatabase._();
+
+  factory PersonalManagerDatabase() => instance;
 }
 
 @UseDao(tables: [MoorNote])
@@ -110,14 +114,27 @@ Task moorTaskToTask(MoorTaskData task) {
 }
 
 Insertable<MoorNoteData> noteToInsertableMoorNote(Note note) {
-  return MoorNoteCompanion.insert(
-      title: note.title, content: note.content, color: note.color);
+  final moorNoteCompanion = MoorNoteCompanion.insert(
+    title: note.title,
+    content: note.content,
+    color: note.color,
+  );
+  if (note.id == null) {
+    return moorNoteCompanion;
+  } else {
+    return moorNoteCompanion.copyWith(id: Value(note.id!));
+  }
 }
 
 Insertable<MoorTaskData> taskToInsertableMoorTask(Task task) {
-  return MoorTaskCompanion.insert(
+  final moorTaskCompanion = MoorTaskCompanion.insert(
     description: task.description,
     completed: Value(task.completed),
     dueDate: Value(task.dueDate),
   );
+  if (task.id == null) {
+    return moorTaskCompanion;
+  } else {
+    return moorTaskCompanion.copyWith(id: Value(task.id!));
+  }
 }

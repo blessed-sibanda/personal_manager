@@ -5,6 +5,6 @@ abstract class NotesRepository {
   Future<Note> findNoteById(int id);
   Stream<List<Note>> watchAllNotes();
   Future<int> insertNote(Note note);
-  Future<int> updateNote(Note note);
-  Future<int> deleteNote(Note note);
+  Future<dynamic> updateNote(Note note);
+  Future<void> deleteNote(Note note);
 }

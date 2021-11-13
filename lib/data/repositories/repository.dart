@@ -1,9 +1,6 @@
-import 'package:personal_manager/data/repositories/tasks_repository.dart';
-
 import 'notes_repository.dart';
-import 'contacts_repository.dart';
+import 'tasks_repository.dart';
 
-abstract class Repository
-    implements NotesRepository, ContactsRepository, TasksRepository {
+abstract class Repository implements NotesRepository, TasksRepository {
   void close();
 }

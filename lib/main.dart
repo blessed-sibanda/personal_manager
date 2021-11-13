@@ -4,8 +4,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:personal_manager/data/managers/notes_manager.dart';
 import 'package:personal_manager/data/managers/tasks_manager.dart';
+import 'package:personal_manager/data/moor/moor_repository.dart';
 import 'package:personal_manager/data/repositories/repository.dart';
-import 'package:personal_manager/data/sqlite/sqlite_repository.dart';
 import 'package:provider/provider.dart';
 import 'utils.dart' as utils;
 import 'home.dart';
@@ -13,7 +13,7 @@ import 'home.dart';
 void main() {
   _setupLogging();
   runApp(PersonalManager(
-    repository: SqliteRepository(),
+    repository: MoorRepository(),
   ));
 }
 
