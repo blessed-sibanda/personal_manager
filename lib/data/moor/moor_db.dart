@@ -108,7 +108,7 @@ Task moorTaskToTask(MoorTaskData task) {
   return Task(
     id: task.id,
     description: task.description,
-    dueDate: task.dueDate,
+    dueDate: task.dueDate!,
     completed: task.completed,
   );
 }

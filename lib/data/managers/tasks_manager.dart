@@ -8,7 +8,7 @@ class TasksScreens {
 class TasksManager extends ChangeNotifier {
   int? _selectedId;
 
-  int _screen = TasksScreens.entry;
+  int _screen = TasksScreens.list;
 
   int get screen => _screen;
 

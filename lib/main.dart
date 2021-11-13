@@ -1,13 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
-import 'package:personal_manager/data/managers/notes_manager.dart';
-import 'package:personal_manager/data/managers/tasks_manager.dart';
+import 'package:personal_manager/data/managers/managers.dart';
 import 'package:personal_manager/data/moor/moor_repository.dart';
 import 'package:personal_manager/data/repositories/repository.dart';
 import 'package:provider/provider.dart';
-import 'utils.dart' as utils;
+
 import 'home.dart';
 
 void main() {
@@ -35,14 +32,8 @@ class PersonalManager extends StatefulWidget {
 }
 
 class _PersonalManagerState extends State<PersonalManager> {
-  void initDocs() async {
-    Directory docsDir = await getApplicationDocumentsDirectory();
-    utils.docsDir = docsDir;
-  }
-
   @override
   void initState() {
-    initDocs();
     super.initState();
   }
 

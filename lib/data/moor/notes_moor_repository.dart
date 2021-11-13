@@ -1,4 +1,3 @@
-import 'package:moor_flutter/moor_flutter.dart';
 import 'package:personal_manager/data/moor/moor_db.dart';
 import 'package:personal_manager/data/repositories/notes_repository.dart';
 import 'package:personal_manager/models/notes_model.dart';

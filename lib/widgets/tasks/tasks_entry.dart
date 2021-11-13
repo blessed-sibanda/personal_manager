@@ -72,7 +72,7 @@ class _TasksEntryState extends State<TasksEntry> {
                       SnackBar(
                         duration: const Duration(seconds: 2),
                         content: Text(_successText),
-                        backgroundColor: Colors.grey,
+                        backgroundColor: Colors.grey.withOpacity(0.5),
                       ),
                     );
                   },
