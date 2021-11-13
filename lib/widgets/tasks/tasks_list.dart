@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:personal_manager/data/managers/tasks_manager.dart';
 import 'package:personal_manager/data/repositories/repository.dart';
 import 'package:personal_manager/models/tasks_model.dart';
+import 'package:personal_manager/utils.dart' as utils;
 import 'package:provider/provider.dart';
 
 class TasksList extends StatefulWidget {
@@ -80,7 +81,7 @@ class _TasksListState extends State<TasksList> {
                                   color: Theme.of(context).disabledColor)
                               : TextStyle(
                                   color: Theme.of(context).primaryColor)),
-                      subtitle: Text(task.dueDate.toString(),
+                      subtitle: Text(utils.formatDate(task.dueDate),
                           style: task.completed
                               ? TextStyle(
                                   color: Theme.of(context).disabledColor,
