@@ -497,17 +497,271 @@ class $MoorTaskTable extends MoorTask
   }
 }
 
+class MoorAppointmentData extends DataClass
+    implements Insertable<MoorAppointmentData> {
+  final int id;
+  final String title;
+  final String description;
+  final DateTime apptTime;
+  MoorAppointmentData(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.apptTime});
+  factory MoorAppointmentData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return MoorAppointmentData(
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      title: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
+      apptTime: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}appt_time'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['description'] = Variable<String>(description);
+    map['appt_time'] = Variable<DateTime>(apptTime);
+    return map;
+  }
+
+  MoorAppointmentCompanion toCompanion(bool nullToAbsent) {
+    return MoorAppointmentCompanion(
+      id: Value(id),
+      title: Value(title),
+      description: Value(description),
+      apptTime: Value(apptTime),
+    );
+  }
+
+  factory MoorAppointmentData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return MoorAppointmentData(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      description: serializer.fromJson<String>(json['description']),
+      apptTime: serializer.fromJson<DateTime>(json['apptTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'description': serializer.toJson<String>(description),
+      'apptTime': serializer.toJson<DateTime>(apptTime),
+    };
+  }
+
+  MoorAppointmentData copyWith(
+          {int? id, String? title, String? description, DateTime? apptTime}) =>
+      MoorAppointmentData(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description ?? this.description,
+        apptTime: apptTime ?? this.apptTime,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('MoorAppointmentData(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('apptTime: $apptTime')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, title, description, apptTime);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MoorAppointmentData &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.description == this.description &&
+          other.apptTime == this.apptTime);
+}
+
+class MoorAppointmentCompanion extends UpdateCompanion<MoorAppointmentData> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String> description;
+  final Value<DateTime> apptTime;
+  const MoorAppointmentCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.description = const Value.absent(),
+    this.apptTime = const Value.absent(),
+  });
+  MoorAppointmentCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    required String description,
+    required DateTime apptTime,
+  })  : title = Value(title),
+        description = Value(description),
+        apptTime = Value(apptTime);
+  static Insertable<MoorAppointmentData> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? description,
+    Expression<DateTime>? apptTime,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (description != null) 'description': description,
+      if (apptTime != null) 'appt_time': apptTime,
+    });
+  }
+
+  MoorAppointmentCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? title,
+      Value<String>? description,
+      Value<DateTime>? apptTime}) {
+    return MoorAppointmentCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      apptTime: apptTime ?? this.apptTime,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (apptTime.present) {
+      map['appt_time'] = Variable<DateTime>(apptTime.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MoorAppointmentCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('apptTime: $apptTime')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MoorAppointmentTable extends MoorAppointment
+    with TableInfo<$MoorAppointmentTable, MoorAppointmentData> {
+  final GeneratedDatabase _db;
+  final String? _alias;
+  $MoorAppointmentTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      typeName: 'INTEGER',
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _titleMeta = const VerificationMeta('title');
+  late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
+      'title', aliasedName, false,
+      typeName: 'TEXT', requiredDuringInsert: true);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, false,
+      typeName: 'TEXT', requiredDuringInsert: true);
+  final VerificationMeta _apptTimeMeta = const VerificationMeta('apptTime');
+  late final GeneratedColumn<DateTime?> apptTime = GeneratedColumn<DateTime?>(
+      'appt_time', aliasedName, false,
+      typeName: 'INTEGER', requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, title, description, apptTime];
+  @override
+  String get aliasedName => _alias ?? 'moor_appointment';
+  @override
+  String get actualTableName => 'moor_appointment';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MoorAppointmentData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('appt_time')) {
+      context.handle(_apptTimeMeta,
+          apptTime.isAcceptableOrUnknown(data['appt_time']!, _apptTimeMeta));
+    } else if (isInserting) {
+      context.missing(_apptTimeMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MoorAppointmentData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return MoorAppointmentData.fromData(data, _db,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $MoorAppointmentTable createAlias(String alias) {
+    return $MoorAppointmentTable(_db, alias);
+  }
+}
+
 abstract class _$PersonalManagerDatabase extends GeneratedDatabase {
   _$PersonalManagerDatabase(QueryExecutor e)
       : super(SqlTypeSystem.defaultInstance, e);
   late final $MoorNoteTable moorNote = $MoorNoteTable(this);
   late final $MoorTaskTable moorTask = $MoorTaskTable(this);
+  late final $MoorAppointmentTable moorAppointment =
+      $MoorAppointmentTable(this);
   late final NoteDao noteDao = NoteDao(this as PersonalManagerDatabase);
   late final TaskDao taskDao = TaskDao(this as PersonalManagerDatabase);
+  late final AppointmentDao appointmentDao =
+      AppointmentDao(this as PersonalManagerDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [moorNote, moorTask];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [moorNote, moorTask, moorAppointment];
 }
 
 // **************************************************************************
@@ -519,4 +773,7 @@ mixin _$NoteDaoMixin on DatabaseAccessor<PersonalManagerDatabase> {
 }
 mixin _$TaskDaoMixin on DatabaseAccessor<PersonalManagerDatabase> {
   $MoorTaskTable get moorTask => attachedDatabase.moorTask;
+}
+mixin _$AppointmentDaoMixin on DatabaseAccessor<PersonalManagerDatabase> {
+  $MoorAppointmentTable get moorAppointment => attachedDatabase.moorAppointment;
 }

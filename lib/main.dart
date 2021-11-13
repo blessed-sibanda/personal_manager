@@ -50,6 +50,8 @@ class _PersonalManagerState extends State<PersonalManager> {
             create: (context) => NotesManager()),
         ChangeNotifierProvider<TasksManager>(
             create: (context) => TasksManager()),
+        ChangeNotifierProvider<AppointmentsManager>(
+            create: (context) => AppointmentsManager()),
       ],
       child: MaterialApp(
         title: 'Personal Manager',

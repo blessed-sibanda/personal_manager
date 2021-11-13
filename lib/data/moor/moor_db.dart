@@ -1,4 +1,5 @@
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:personal_manager/main.dart';
 import 'package:personal_manager/models/models.dart';
 
 part 'moor_db.g.dart';
@@ -17,7 +18,16 @@ class MoorTask extends Table {
   BoolColumn get completed => boolean().withDefault(const Constant(false))();
 }
 
-@UseMoor(tables: [MoorNote, MoorTask], daos: [NoteDao, TaskDao])
+class MoorAppointment extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  TextColumn get description => text()();
+  DateTimeColumn get apptTime => dateTime()();
+}
+
+@UseMoor(
+    tables: [MoorNote, MoorTask, MoorAppointment],
+    daos: [NoteDao, TaskDao, AppointmentDao])
 class PersonalManagerDatabase extends _$PersonalManagerDatabase {
   PersonalManagerDatabase._()
       : super(FlutterQueryExecutor.inDatabaseFolder(
@@ -99,6 +109,41 @@ class TaskDao extends DatabaseAccessor<PersonalManagerDatabase>
       Future.value((delete(moorTask)..where((tbl) => tbl.id.equals(id))).go());
 }
 
+@UseDao(tables: [MoorAppointment])
+class AppointmentDao extends DatabaseAccessor<PersonalManagerDatabase>
+    with _$AppointmentDaoMixin {
+  final PersonalManagerDatabase db;
+  AppointmentDao(this.db) : super(db);
+
+  Future<List<MoorAppointmentData>> findAllAppointments() =>
+      select(moorAppointment).get();
+
+  Stream<List<Appointment>> watchAllAppointments() {
+    return select(moorAppointment).watch().map((rows) {
+      final appointments = <Appointment>[];
+      for (var row in rows) {
+        final appt = moorAppointmentToAppointment(row);
+        if (!appointments.contains(appt)) {
+          appointments.add(appt);
+        }
+      }
+      return appointments;
+    });
+  }
+
+  Future<List<MoorAppointmentData>> findAppointmentById(int id) =>
+      (select(moorAppointment)..where((tbl) => tbl.id.equals(id))).get();
+
+  Future<int> insertAppointment(Insertable<MoorAppointmentData> appointment) =>
+      into(moorAppointment).insert(appointment);
+
+  Future<bool> updateAppointment(Insertable<MoorAppointmentData> appointment) =>
+      update(moorAppointment).replace(appointment);
+
+  Future deleteAppointment(int id) => Future.value(
+      (delete(moorAppointment)..where((tbl) => tbl.id.equals(id))).go());
+}
+
 Note moorNoteToNote(MoorNoteData note) {
   return Note(
       id: note.id, title: note.title, content: note.content, color: note.color);
@@ -111,6 +156,14 @@ Task moorTaskToTask(MoorTaskData task) {
     dueDate: task.dueDate!,
     completed: task.completed,
   );
+}
+
+Appointment moorAppointmentToAppointment(MoorAppointmentData appointment) {
+  return Appointment(
+      id: appointment.id,
+      title: appointment.title,
+      description: appointment.description,
+      apptTime: appointment.apptTime);
 }
 
 Insertable<MoorNoteData> noteToInsertableMoorNote(Note note) {
@@ -136,5 +189,19 @@ Insertable<MoorTaskData> taskToInsertableMoorTask(Task task) {
     return moorTaskCompanion;
   } else {
     return moorTaskCompanion.copyWith(id: Value(task.id!));
+  }
+}
+
+Insertable<MoorAppointmentData> appointmentToInsertableMoorAppointment(
+    Appointment appointment) {
+  final moorAppointmentCompanion = MoorAppointmentCompanion.insert(
+    title: appointment.title,
+    description: appointment.description,
+    apptTime: appointment.apptTime,
+  );
+  if (appointment.id == null) {
+    return moorAppointmentCompanion;
+  } else {
+    return moorAppointmentCompanion.copyWith(id: Value(appointment.id!));
   }
 }
