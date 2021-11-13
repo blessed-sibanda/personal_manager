@@ -84,7 +84,7 @@ class _TasksEntryState extends State<TasksEntry> {
           key: _formKey,
           child: ListView(children: [
             ListTile(
-              leading: const Icon(Icons.content_paste),
+              leading: const Icon(Icons.task),
               title: TextFormField(
                 keyboardType: TextInputType.multiline,
                 maxLines: 8,
@@ -97,6 +97,7 @@ class _TasksEntryState extends State<TasksEntry> {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.date_range),
               title: const Text('Due Date'),
               subtitle: Text(utils.formatDate(_task.dueDate)),
               trailing: IconButton(
